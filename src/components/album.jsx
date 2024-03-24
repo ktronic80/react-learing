@@ -1,19 +1,27 @@
-import React, {useEffect, useState} from "react";
-import {getCharacters} from "rickmortyapi";
+import React, { useEffect, useState } from "react";
+import { getCharacters } from "rickmortyapi";
 import AlbumGrid from "./album-grid";
+import NameSearchBar from "./name-search-bar";
 
 async function fetchAllCharacters(name) {
-  //
-  const initialCallUrl = `https://rickandmortyapi.com/api/character/?name=${name}`
-  let response = await fetchData(initialCallUrl);
-  console.log(response);
-  const allCharacters = response.characters;
-  while (response.next) {
-    response = await fetchData(response.next);
-    allCharacters.push(...response.characters);
+
+  if (name !== "") {
+    const initialCallUrl = `https://rickandmortyapi.com/api/character/?name=${name}`
+
+    let response = await fetchData(initialCallUrl);
+
+    //console.log(response);
+
+    const allCharacters = response.characters;
+
+    while (response.next) {
+      response = await fetchData(response.next);
+      allCharacters.push(...response.characters);
+    }
+
+    //console.log(allCharacters.length);
+    return allCharacters;
   }
-  console.log(allCharacters.length);
-  return allCharacters;
 }
 
 async function fetchData(url) {
@@ -21,24 +29,37 @@ async function fetchData(url) {
   const response = await fetch(url);
   //console.log(response);
   const data = await response.json();
-    console.log(data);
-  const allCharacters = data.results.map((character) => {
-    return {name: character.name, image: character.image};
-  });
+  //  console.log(data);
+  if (data.results) {
+    const allCharacters = data.results.map((character) => {
+      return { key: character.id, name: character.name, image: character.image };
+    });
+    return { characters: allCharacters, next: data.info.next };
+  }
 
-  return {characters: allCharacters, next: data.info.next};
+  return { characters: [], next: null };
 }
 export default function Album() {
   const [images, setImages] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    fetchAllCharacters("rick")
-        .then( allCharacters=> setImages(allCharacters));
-  }, []);
+    fetchAllCharacters(searchInput)
+      .then(allCharacters => setImages(allCharacters));
+  }, [searchInput]);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (e.target.value === "") {
+      setSearchInput("");
+    }
+    setSearchInput(e.target.value);
+  };
 
   return (
     <div>
-      <AlbumGrid images={images} searchTerm="rick" />
+      <NameSearchBar onChange={handleChange} searchInput={searchInput} />
+      <AlbumGrid images={images} searchTerm={searchInput} />
     </div>
   );
 }

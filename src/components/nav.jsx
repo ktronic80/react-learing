@@ -1,14 +1,16 @@
+import { Link } from "react-router-dom";
+
 export default function Nav() {
   return (
     <nav style={{ display: "flex", justifyContent: "space-evenly" }}>
       <div>
-        <a href="/home">HOME</a>
+        <Link to={`home`}>HOME</Link>
       </div>
       <div>
-        <a href="/album">ALBUM</a>
+        <Link to={`album`}>ALBUM</Link>
       </div>
       <div>
-        <a href="/favorites">MY FAVOURITES</a>
+        <Link to={`favorites`}>MY FAVOURITES</Link>
       </div>
     </nav>
   );

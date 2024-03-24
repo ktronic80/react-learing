@@ -1,11 +1,11 @@
 import AlbumImage from "./album-image";
 
-function createAlbumImage({ name, image }) {
-  return <AlbumImage name={name} imageUrl={image} />;
+function createAlbumImage({ key, name, image }) {
+  return <AlbumImage key={key} id={key} name={name} imageUrl={image} />;
 }
 
 export default function AlbumGrid({ images, searchTerm }) {
-  if (images) {
+  if (images && images.length > 0) {
     return (
       <div
         style={{
@@ -19,6 +19,10 @@ export default function AlbumGrid({ images, searchTerm }) {
       </div>
     );
   } else {
-    return <div>No images found for {searchTerm}</div>;
+    let message = 'No images found';
+    if (searchTerm) {
+      message = message + ` for ${searchTerm}`;
+    }
+    return <div> {message}</div>;
   }
 }

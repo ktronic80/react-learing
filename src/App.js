@@ -2,6 +2,8 @@ import "./styles.css";
 import Nav from "./components/nav";
 import TipOfTheDay from "./components/tip-of-the-day";
 import Album from "./components/album";
+import { Outlet } from "react-router-dom";
+
 
 export default function App() {
   return (
@@ -14,8 +16,7 @@ export default function App() {
       }}
     >
       <Nav />
-      <TipOfTheDay />
-      <Album />
+      <Outlet />
     </div>
   );
 }
