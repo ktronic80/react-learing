@@ -1,7 +1,7 @@
 import AlbumImage from "./album-image";
 
-function createAlbumImage({ key, name, image }) {
-  return <AlbumImage key={key} id={key} name={name} imageUrl={image} />;
+function createAlbumImage({ id, name, image }) {
+  return <AlbumImage key={id} id={id} name={name} imageUrl={image} />;
 }
 
 export default function AlbumGrid({ images, searchTerm }) {

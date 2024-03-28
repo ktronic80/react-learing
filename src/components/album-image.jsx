@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from "react";
-
 export default function AlbumImage({ id, name, imageUrl }) {
-
-  const [favorites, setFavorites] = useState(new Map());
-
+  
   const saveFavourites = (e) => {
     console.log("saveFavourites");
+    let favorites = localStorage.getItem("favorites");
+
+    if (!favorites) {
+      favorites = new Map();
+    } else {
+      favorites = new Map(JSON.parse(favorites));
+    }
+
     if (favorites.has(id)) {
       console.log("Already saved");
+      favorites.delete(id);
     } else {
       console.log("Saving");
       favorites.set(id, {name: name, imageUrl: imageUrl});
-      setFavorites(favorites);
     }
+
+    localStorage.setItem("favorites", JSON.stringify(Array.from(favorites.entries())));
   };
 
   return (

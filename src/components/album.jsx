@@ -32,7 +32,7 @@ async function fetchData(url) {
   //  console.log(data);
   if (data.results) {
     const allCharacters = data.results.map((character) => {
-      return { key: character.id, name: character.name, image: character.image };
+      return { id: character.id, name: character.name, image: character.image };
     });
     return { characters: allCharacters, next: data.info.next };
   }
