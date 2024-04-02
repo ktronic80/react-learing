@@ -1,4 +1,5 @@
 import {saveFavourites} from "./favourites-actions";
+
 export default function AlbumImage({ id, name, imageUrl }) {
 
   return (

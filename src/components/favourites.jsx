@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AlbumImage from "./album-image";
 import AlbumGrid from "./album-grid";
 import { loadFavourites } from "./favourites-actions";
+
 function createFavourites(favorites) {
     if (!favorites) {
         return <div>No favourites saved</div>;
